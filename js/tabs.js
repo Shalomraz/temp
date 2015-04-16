@@ -1,52 +1,52 @@
 function asTabs(node) {
-    // Your code here.
-  	
-  	// Create the UL to hold the tabs
-  	var list = create("ul");
+    // Create "ul" element
+    var ul = document.createElement("ul");
   
-  	// Get all the tab panels
-  	var panels = document.querySelectorAll("[data-tabname]");
-  	
-  	// Insert the tabs list before the first panel
-	  prepend(list, panels[0]);
+    // Get "data-tabname" attribute from all "div" elements
+    var attributes = document.querySelectorAll("[data-tabname]");
+    
+    // Insert "ul" element before the first "data-tabname" attribute
+    node.insertBefore(ul, attributes[0])
   
-		// Loop through the panels and create a new
-  	// tab in the list with the panel name
-  	for (var i = 0; i < panels.length; i++) {
-      createTab(list, panels[i].getAttribute("data-tabname"));
+    // Create a new button according to each attribute value
+    for (var i = 0; i < attributes.length; i++) {
+      var button = document.createElement("button");
+      button.textContent = attributes[i].getAttribute("data-tabname");
+      button.setAttribute("id", i);
+
+      var li = document.createElement("li");
+      ul.appendChild(li);
+      li.appendChild(button);
+      
+      // Hide each "li" bullet and each 
+      // element with "data-tabname" attribute
+      li.style.listStyleType = "none";
+      attributes[i].style.display = "none";     
     }
-  
-  
-  	//////////////////
-  	function prepend(newElement, referenceElement) {
-      node.insertBefore(newElement, referenceElement)
+
+    // Create a "click" event listener    
+    ul.addEventListener("click", displayText, false);
+
+    function displayText(event) {
+      if (event.target !== event.currentTarget) {
+        var id = event.target.id;
+
+        // Clear from screen all the text with
+        // "data-tabname" attribute
+        for (var i = 0; i < attributes.length; i++) {
+          attributes[i].style.display = "none";
+        }
+
+        // Display the text for the current click event
+        attributes[id].style.display = "block";
+      }
+
+      // Prevent further propagation of the event
+      event.stopPropagation();
     }
-  
- 		function create(tagName) {
-      return document.createElement(tagName);
-    }
-  
-  	function append(parent, child) {
-      parent.appendChild(child);
-    }
-  
-   	function createTab(tabsList, newTabName) {
-      var li = create("li");
-      var button = create("button");
-      button.textContent = newTabName;
-      button.addEventListener("click", showTab, true);
-      append(li, button);
-      append(tabsList, li);
-    }
-  
-  	function showTab() {
-      alert("Hi");
-    }
-  
-  	document.body.addEventListener("click", function () {
-      alert("I'm body");
-    }, true);
 }
 
 // Test code
 asTabs(document.querySelector("#wrapper"));
+
+ 

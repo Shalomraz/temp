@@ -13,11 +13,7 @@ And a `getType()` method, where `getType` returns the type.
 // Your code here
 //-----------------------------------
 function Shape(type) {
-  this.type = type;
-  
-  this.getType = function() {
-    return this.type;
-  }
+  this.type = type || 'shape';
 }
 
 function Triangle(a, b, c) {
@@ -26,10 +22,19 @@ function Triangle(a, b, c) {
   this.c = c;
 }
 
-Triangle.prototype = new Shape("triangle");
-Triangle.prototype.getPerimeter = function() {
-  return this.a * this.b * this.c;
+// Setup prototype inheritance
+Triangle.prototype = new Shape('triangle');
+// Redefine the constructor
+Triangle.prototype.constructor = Triangle;
+
+Triangle.prototype.getType = function() {
+  return this.type;
 };
+
+Triangle.prototype.getPerimeter = function() {
+  return this.a + this.b + this.c;
+};
+
 //-----------------------------------
 // Your code should pass these tests
 //-----------------------------------

@@ -25,6 +25,7 @@ function Triangle(a, b, c) {
 // Setup prototype inheritance
 Triangle.prototype = new Shape('triangle');
 // Redefine the constructor
+// Make Triangle recieve the Shape constructor and also the Triangle one
 Triangle.prototype.constructor = Triangle;
 
 Triangle.prototype.getType = function() {

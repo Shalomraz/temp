@@ -50,6 +50,7 @@ Hint:
 
   // On each todo text change
   todoHandler = function (todo) {
+    //debugger;
     var text = todo.textContent;
     var storageItem = localStorage.getItem(todosKey);
     var storageLength = JSON.parse(storageItem).list.length;

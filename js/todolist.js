@@ -35,7 +35,7 @@ Hint:
       var i;
       var frag = document.createDocumentFragment();
       var ul = document.querySelector('.todos');
-      
+     
       for (i = 0; i < storageLength; i++) {
         var li = document.querySelector('li').cloneNode();
         li.innerText = JSON.parse(storageItem).list[i].value;
@@ -50,29 +50,35 @@ Hint:
 
   // On each todo text change
   todoHandler = function (todo) {
-    //debugger;
     var text = todo.textContent;
     var storageItem = localStorage.getItem(todosKey);
-    var storageLength = JSON.parse(storageItem).list.length;
-
-    if(!text) {
-      for (var i = 0; i < storageLength; i++) {
-        if(JSON.parse(storageItem).list[i].value === '') {
-          console.log('no value');
-          localStorage.removeItem(storageItem.list[i]);
-        }
-      }
-    }
-
+    var storageLength = JSON.parse(storageItem).list.length + 1;
     var todosObj = JSON.parse(localStorage.getItem(todosKey));
     var newLi = document.querySelector('li').cloneNode(); 
     var li = document.querySelector('li');
     var ul = document.querySelector('.todos');
+
+    // If there's no input text, remove it from the localstorage
+    // and don't add another li child
+    if(!text) {
+      for (var i = 0; i < storageLength; i++) {
+        if(!JSON.parse(storageItem).list[i]) {
+          localStorage.removeItem(todosKey);
+          ul.removeChild(ul.lastChild);
+          li.focus();
+        }
+      }
+    }  
     
+    // Arrange the li list so the last inserted value
+    // will be the last li
     if(ul.lastChild.innerText === '') {
-      todosObj.list.push({value: text, done: false});
+      todosObj.list.push({value: text, done: true});
       ul.removeChild(ul.lastChild);
       ul.insertBefore(newLi, li);
+      var secondChild = ul.children[1];
+      ul.removeChild(ul.children[1]);
+      ul.appendChild(secondChild);
       newLi.focus();
     }
     

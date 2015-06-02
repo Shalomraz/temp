@@ -25,6 +25,7 @@ Hint:
     todoHandler,
     clearHandler,
     todosKey = 'todos';
+    localData = [];
 
   // Setup the todos if there is data saved in localStorage
   initTodos = function () {
@@ -59,7 +60,7 @@ Hint:
     var ul = document.querySelector('.todos');
 
     // If there's no input text, remove it from the localstorage
-    // and don't add another li child
+    // and don't add another li child element
     if(!text) {
       for (var i = 0; i < storageLength; i++) {
         if(!JSON.parse(storageItem).list[i]) {
@@ -68,18 +69,27 @@ Hint:
           li.focus();
         }
       }
-    }  
+    } 
     
-    // Arrange the li list so the last inserted value
-    // will be the last li
+    // Arrange the li list in real time so the inserted value
+    // will be the last li element shown
     if(ul.lastChild.innerText === '') {
-      todosObj.list.push({value: text, done: true});
+      // Push the inserted value into the localstorage
+      todosObj.list.push({value: text});
+      /*
+      // Remove the last li child element, which is an empty one
       ul.removeChild(ul.lastChild);
+      // Insert an empty li element (newLi) before the inserted one
       ul.insertBefore(newLi, li);
+      // Store the inserted li child element value (the second li element)
       var secondChild = ul.children[1];
-      ul.removeChild(ul.children[1]);
+      // Remove the inserted value which is the second li child element
+      ul.removeChild(secondChild);
+      // Apply the removed li child element so it'll be the last one
       ul.appendChild(secondChild);
-      newLi.focus();
+      // Give focus to the first li field
+      //newLi.focus();
+      */
     }
     
     localStorage.setItem(todosKey, JSON.stringify(todosObj));  

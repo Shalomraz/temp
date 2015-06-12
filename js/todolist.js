@@ -20,12 +20,12 @@ Hint:
 /* globals UTILS, Modernizr */
 (function () {
   var todos = UTILS.qs('.todos'),
-    clearBtn = UTILS.qs('#clearBtn'),
-    initTodos,
-    todoHandler,
-    clearHandler,
-    todosKey = 'todos';
-    localData = [];
+      clearBtn = UTILS.qs('#clearBtn'),
+      initTodos,
+      todoHandler,
+      clearHandler,
+      todosKey = 'todos';
+      localData = [];
 
   // Setup the todos if there is data saved in localStorage
   initTodos = function () {
@@ -51,19 +51,22 @@ Hint:
 
   // On each todo text change
   todoHandler = function (todo) {
+  	console.log("todo: " + todo + '\n' +
+  		         "todos: " + todos);
     var text = todo.textContent;
     var storageItem = localStorage.getItem(todosKey);
     var storageLength = JSON.parse(storageItem).list.length + 1;
     var todosObj = JSON.parse(localStorage.getItem(todosKey));
     var newLi = document.querySelector('li').cloneNode(); 
-    var li = document.querySelector('li');
+    //var li = document.querySelector('li');
     var ul = document.querySelector('.todos');
+    var frag = document.createDocumentFragment();
 
     // If there's no input text, remove it from the localstorage
     // and don't add another li child element
     if(!text) {
       for (var i = 0; i < storageLength; i++) {
-        if(!JSON.parse(storageItem).list[i]) {
+        if(!todosObj.list[i]) {
           localStorage.removeItem(todosKey);
           ul.removeChild(ul.lastChild);
           li.focus();
@@ -75,10 +78,27 @@ Hint:
     // will be the last li element shown
     if(ul.lastChild.innerText === '') {
       // Push the inserted value into the localstorage
-      todosObj.list.push({value: text});
-      /*
+      console.log(ul.children.length + '\n' + storageLength)
+      if(ul.children.length !== storageLength) {
+      	todosObj.list.push({value: text});
+      }
       // Remove the last li child element, which is an empty one
-      ul.removeChild(ul.lastChild);
+      //ul.removeChild(ul.lastChild);
+      //debugger;
+      while(ul.hasChildNodes()) {
+	  	ul.removeChild(ul.lastChild); 
+	  }
+	  ul.appendChild(newLi);    
+	  
+
+      for (var i = 0; i < storageLength; i++) {
+      	var li = document.querySelector('li').cloneNode();
+      	li.innerText = todosObj.list[i].value;
+        frag.appendChild(li);
+      }
+      ul.appendChild(frag);
+
+      /*
       // Insert an empty li element (newLi) before the inserted one
       ul.insertBefore(newLi, li);
       // Store the inserted li child element value (the second li element)
@@ -87,9 +107,9 @@ Hint:
       ul.removeChild(secondChild);
       // Apply the removed li child element so it'll be the last one
       ul.appendChild(secondChild);
-      // Give focus to the first li field
-      //newLi.focus();
       */
+      // Give focus to the first li field
+      newLi.focus();
     }
     
     localStorage.setItem(todosKey, JSON.stringify(todosObj));  

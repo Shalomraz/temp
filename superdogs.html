@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Super Dogs</title>
+  <link rel="stylesheet" href="css/superdogs.css">
+</head>
+<body>
+
+<template id="dogs-template">
+  <h1>{{title}}</h1>
+  <ul>
+     {{#each data.dogs}}
+      <li>name: <span>{{name}}</span></li>
+      <li>breed: <span>{{breed}}</span></li>
+      <li>gender: <span>{{gender}}</span></li>
+      <li>color: <span>{{color}}</span></li>
+      <li>birth: <span>{{birth}}</span></li>
+      <li></li>
+    {{/each}}
+  </ul>
+</template>
+
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/handlebars-v3.0.3.js"></script>
+<script src="js/superdogs.js"></script>
+</body>
+</html>
